@@ -79,14 +79,65 @@ Y = dataset.iloc[:, -1].values
 
 # display dependent variables
 Y
+# Sigmoid function
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
 
-Developed by: 
-RegisterNumber:  
+# Loss function
+def loss(theta, X, Y):
+    h = sigmoid(X.dot(theta))
+    return -np.sum(Y * np.log(h) + (1 - Y) * np.log(1 - h))
+
+# Gradient Descent function
+def gradient_descent(theta, X, Y, alpha, num_iterations):
+    m = len(Y)
+    for _ in range(num_iterations):
+        h = sigmoid(X.dot(theta))
+        gradient = X.T.dot(h - Y) / m
+        theta -= alpha * gradient
+    return theta
+
+# Initialize theta (random weights)
+theta = np.random.randn(X.shape[1])
+# Train model using gradient descent
+theta = gradient_descent(theta, X, Y, alpha=0.01, num_iterations=1000)
+# Prediction function
+def predict(theta, X):
+    h = sigmoid(X.dot(theta))
+    y_pred = np.where(h > 0.5, 1, 0)
+    return y_pred
+
+# Predict values for the dataset
+y_pred = predict(theta, X)
+
+# Compute accuracy
+accuracy = np.mean(y_pred.flatten() == Y)
+print("Accuracy:", accuracy)
+# Define new test cases
+x_new1 = np.array([[0, 87, 0, 95, 0, 2, 78, 2, 0, 0, 1, 0]])
+x_new2 = np.array([[0, 0, 0, 0, 0, 2, 8, 2, 0, 0, 1, 0]])
+
+# Predict placement status for new inputs
+y_pred_new1 = predict(theta, x_new1)
+y_pred_new2 = predict(theta, x_new2)
+
+# Display predictions
+print("Prediction for x_new1:", y_pred_new1)
+print("Prediction for x_new2:", y_pred_new2)
+
+
+Developed by: A S Siddarth
+RegisterNumber: 212224040316 
 */
 ```
 
 ## Output:
-![logistic regression using gradient descent](sam.png)
+
+![Screenshot 2025-03-30 211822](https://github.com/user-attachments/assets/1edc78a5-c2ba-4b43-a29d-91487c2d599e)
+
+![Screenshot 2025-03-30 211833](https://github.com/user-attachments/assets/1c91be3b-8249-46b4-a8ab-b7e2e5a297b1)
+
+![Screenshot 2025-03-30 211838](https://github.com/user-attachments/assets/485771b5-8982-43c1-880b-ac23e643c380)
 
 
 ## Result:
